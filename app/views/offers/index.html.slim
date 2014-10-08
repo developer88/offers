@@ -1,0 +1,26 @@
+= form_tag("/offers", method: "get", class: "form well", role: "form")
+  - if flash[:errors]
+    ul.bg-danger
+      - flash[:errors].each do |msg| 
+        li= msg
+
+  = hidden_field_tag(:search, 1)
+
+  .form-group
+    = label_tag(:page, "Page:")
+    = number_field_tag(:page, @offer_client.page, in: 1..100000, step: 1, class: "form-control")
+  .form-group
+    = label_tag(:uid, "User id:")
+    = text_field_tag(:uid, @offer_client.uid, class: "form-control")
+  .form-group
+    = label_tag(:pub0, "Custom data:")
+    = text_field_tag(:pub0, @offer_client.pub0, class: "form-control")
+
+  = submit_tag("Get offers list")
+
+- if @offers 
+  hr
+    - if @offers.size == 0
+      = render template: 'offers/empty'
+    - else
+      = render template: 'offers/list', locals: {offers: @offers}
