@@ -21,6 +21,6 @@
 - if @offers 
   hr
     - if @offers.size == 0
-      = render template: 'offers/empty'
+      = render 'offers/empty'
     - else
-      = render template: 'offers/list', locals: {offers: @offers}
+      = render 'offers/list', offers: @offers
