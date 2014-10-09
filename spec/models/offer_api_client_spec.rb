@@ -11,7 +11,7 @@ RSpec.describe OfferApiClient, type: :model do
 
       it 'should create a hashkey' do
         mock_server_response({code: 500})
-        expect_any_instance_of(OfferApiClient).to receive(:sing_request)
+        expect_any_instance_of(OfferApiClient).to receive(:sign_request)
         subject.request        
       end
 

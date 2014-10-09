@@ -48,7 +48,7 @@ class OfferApiClient
 			@params.map{|k,v| "#{k}=#{v}"}.join("&") 
 		end
 
-		def sing_request
+		def sign_request
 			Digest::SHA1.hexdigest prepare_url + "&#{Settings.apikey}"
 		end
 
@@ -65,7 +65,7 @@ class OfferApiClient
 				timestamp: Time.now.to_i,
 				uid: uid
 			}
-			@params[:hashkey] = sing_request
+			@params[:hashkey] = sign_request
 			@results = []
 		end
 
