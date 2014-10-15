@@ -1,7 +1,7 @@
 Some test app
 =========
 
-Test application that uses Fiber App.
+Test application that uses Fiber API.
 
 # Usage
 
