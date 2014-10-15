@@ -17,41 +17,49 @@ class OfferApiClient
 		@page = page.to_i
 	end
 
+	# Main method to grab information about offers
 	def request
 		return false unless valid?
-		reset_params
+		reset_params # create or recreate params
 
 		url = "http://api.sponsorpay.com/feed/v1/offers.json?" + prepare_url
 		resp = Net::HTTP.get_response(URI.parse(url))
 		data = JSON.parse(resp.body)
 
+		# Do some simple check for HTTP code of the response
 		unless resp.code.to_i == 200
 			errors[:base] << data["message"]
 			return false
 		end
+		# Check for valid signature from headers
 		unless response_valid?(resp)
 			errors[:base] << "response not valid"
 			return false
 		end
 
+		# Return data back to user
 		@results = data['offers']
 		true
 	end
 
 	private
 
+		# Check if signature is valid
 		def response_valid?(resp)
 			resp['X-Sponsorpay-Response-Signature'] == Digest::SHA1.hexdigest(resp.body.to_s + "#{Settings.apikey}")
 		end
 
+		# Generate url for request
 		def prepare_url
 			@params.map{|k,v| "#{k}=#{v}"}.join("&") 
 		end
 
+		# Generate signature
 		def sign_request
 			Digest::SHA1.hexdigest prepare_url + "&#{Settings.apikey}"
 		end
 
+		# Create or recreate params
 		def reset_params
 			@params = {
 				appid: Settings.appid,

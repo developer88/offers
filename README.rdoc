@@ -1,3 +1,0 @@
-== README
-
-This app is my test app for Fiber interview that uses Fiber's API
